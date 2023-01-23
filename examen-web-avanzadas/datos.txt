@@ -1,0 +1,1 @@
+[{"_id":"1","_nombre":"Adrian","_fechaNacimiento":"2001-04-29T00:00:00.000Z","_estaCasado":true,"_mascotas":[{"_id":1,"_nombre":"Max","_fechaNacimiento":"2020-04-04T05:00:00.000Z","_estaVacunado":true}]}]
