@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="GestionTickets" id="Project-14e0" database="MySql" >
+	<schema name="gestiontickets" >
+		<table name="estado" prior="estado_ticket" generator_rows="100" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="nombre" prior="estado" type="VARCHAR" length="30" jt="12" mandatory="y" />
+			<index name="pk_estado_ticket" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_estado" unique="UNIQUE_KEY" >
+				<column name="nombre" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="prioridad" prior="tbl" generator_rows="100" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="nombre" type="VARCHAR" length="30" jt="12" mandatory="y" />
+			<column name="valor" type="INT" jt="4" mandatory="y" />
+			<index name="pk_prioridad" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_prioridad" unique="UNIQUE_KEY" >
+				<column name="nombre" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="respuesta" spec="" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="texto" type="VARCHAR" length="500" jt="12" mandatory="y" />
+			<index name="pk_respuesta" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="rol" prior="tbl" generator_rows="100" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="nombre" prior="rol" type="VARCHAR" length="30" jt="12" mandatory="y" />
+			<index name="pk_rol" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_rol" unique="UNIQUE_KEY" >
+				<column name="nombre" />
+			</index>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="ticket" prior="tbl" generator_rows="225" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="titulo" type="VARCHAR" length="30" jt="12" mandatory="y" />
+			<column name="descripcion" type="TEXT" length="100" jt="-1" mandatory="y" />
+			<column name="fecha_creacion" type="DATETIME" jt="93" mandatory="y" >
+				<defo><![CDATA[CURRENT_TIMESTAMP]]></defo>
+			</column>
+			<column name="fecha_resolucion" type="DATETIME" jt="93" />
+			<column name="id_estado" type="INT" length="30" jt="4" mandatory="y" />
+			<column name="id_prioridad" type="INT" jt="4" />
+			<column name="id_usuario" type="INT" jt="4" mandatory="y" />
+			<column name="id_soporte" type="INT" jt="4" />
+			<column name="id_respuesta" type="INT" jt="4" />
+			<index name="pk_ticket" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_ticket_respuesta" unique="UNIQUE_KEY" >
+				<column name="id_respuesta" />
+			</index>
+			<fk name="fk_ticket_estado_ticket_id" to_schema="gestiontickets" to_table="estado" >
+				<fk_column name="id_estado" pk="id" />
+			</fk>
+			<fk name="fk_ticket_usuario_id" to_schema="gestiontickets" to_table="usuario" >
+				<fk_column name="id_usuario" pk="id" />
+			</fk>
+			<fk name="fk_ticket_prioridad_id" to_schema="gestiontickets" to_table="prioridad" >
+				<fk_column name="id_prioridad" pk="id" />
+			</fk>
+			<fk name="fk_ticket_respuesta" to_schema="gestiontickets" to_table="respuesta" delete_action="cascade" update_action="cascade" >
+				<fk_column name="id_respuesta" pk="id" />
+			</fk>
+			<fk name="fk_ticket_usuario_soporte" to_schema="gestiontickets" to_table="usuario" delete_action="cascade" update_action="cascade" >
+				<fk_column name="id_soporte" pk="id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+		<table name="usuario" prior="tbl" generator_rows="150" >
+			<column name="id" type="INT" jt="4" mandatory="y" >
+				<identity><![CDATA[AUTO_INCREMENT]]></identity>
+			</column>
+			<column name="nombre_usuario" type="VARCHAR" length="20" jt="12" mandatory="y" />
+			<column name="correo" type="VARCHAR" length="40" jt="12" mandatory="y" />
+			<column name="contrasena" type="VARCHAR" length="40" jt="12" mandatory="y" />
+			<column name="id_rol" type="INT" jt="4" mandatory="y" />
+			<index name="pk_usuario" unique="PRIMARY_KEY" >
+				<column name="id" />
+			</index>
+			<index name="unq_usuario" unique="UNIQUE_KEY" >
+				<column name="correo" />
+			</index>
+			<fk name="fk_usuario_rol_id" to_schema="gestiontickets" to_table="rol" >
+				<fk_column name="id_rol" pk="id" />
+			</fk>
+			<options><![CDATA[engine=InnoDB]]></options>
+		</table>
+	</schema>
+	<connector name="MySql" database="MySql" driver_class="com.mysql.cj.jdbc.NonRegisteringDriver" driver_jar="mysql-connector-j-8.0.31.jar" driver_desc="Standard" host="localhost" port="3306" instance="gestor_tickets" user="root" schema_mapping="gestiontickets:gestor_tickets" useSystemProxy="false" />
+	<layout name="Default Layout" id="Layout-136" show_relation="columns" >
+		<entity schema="gestiontickets" name="estado" color="C1D8EE" x="80" y="352" />
+		<entity schema="gestiontickets" name="prioridad" color="C1D8EE" x="96" y="224" />
+		<entity schema="gestiontickets" name="respuesta" color="C1D8EE" x="352" y="512" />
+		<entity schema="gestiontickets" name="rol" color="C1D8EE" x="768" y="432" />
+		<entity schema="gestiontickets" name="ticket" color="C1D8EE" x="304" y="224" />
+		<entity schema="gestiontickets" name="usuario" color="C1D8EE" x="688" y="224" />
+		<callout x="48" y="48" pointer="Round" >
+			<comment><![CDATA[This is a layout - a diagram with tools.
+- Right-click the layout to create new tables. 
+- Double-click table headers to edit. 
+- For a better understanding of the schema, create multiple layouts.
+- The schema will be saved to the model file. 
+- Later, you can connect to any database and deploy the schema into the database.]]></comment>
+		</callout>
+		<script name="SQL_Editor_001" id="Editor-4fe" language="SQL" >
+			<string><![CDATA[
+INSERT INTO gestor_tickets.ticket( titulo, descripcion, id_estado, id_usuario, id_soporte ) VALUES ( 'ayuda', 'Necesito que la pagina web sea mas rapida', 1, 2, null);]]></string>
+		</script>
+		<script name="estado" id="Editor-19af" language="SQL" >
+			<string><![CDATA[INSERT INTO gestor_tickets.estado
+	( nombre) VALUES ( 'cerrado' );]]></string>
+		</script>
+		<script name="prioridad" id="Editor-983" language="SQL" >
+			<string><![CDATA[INSERT INTO gestor_tickets.prioridad
+	( nombre, valor) VALUES ( "baja" , 4 );]]></string>
+		</script>
+		<script name="rol" id="Editor-f16" language="SQL" >
+			<string><![CDATA[INSERT INTO gestor_tickets.rol
+	(nombre) VALUES ("soporte");]]></string>
+		</script>
+		<script name="ticket" id="Editor-6b3" language="SQL" >
+			<string><![CDATA[INSERT INTO gestor_tickets.ticket
+	( titulo, descripcion, id_estado, id_usuario) VALUES ( "ayuda" , "Necesito que la pagina web sea mas rapida", 1, 2);]]></string>
+		</script>
+		<script name="usuario" id="Editor-36" language="SQL" >
+			<string><![CDATA[INSERT INTO gestor_tickets.usuario
+	(correo, contrasena, id_rol) VALUES ("david.arteaga@epn.edu.ec", "password", 1);]]></string>
+		</script>
+		<query id="Query-14ab" name="fk_ticket_respuesta" >
+			<query_table schema="gestiontickets" name="respuesta" alias="r" x="48" y="48" >
+				<column name="id" />
+				<column name="texto" />
+				<query_table schema="gestiontickets" name="ticket" alias="t" x="208" y="48" fk="fk_ticket_respuesta" type="Inner Join" />
+			</query_table>
+		</query>
+	</layout>
+</project>
