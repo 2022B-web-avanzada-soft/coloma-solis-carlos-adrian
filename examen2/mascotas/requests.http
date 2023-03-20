@@ -1,0 +1,49 @@
+
+###
+POST http://localhost:8080/persona/crear
+Content-Type: application/json
+
+{
+  "nombre": "Pedro",
+  "fechaNacimiento": "2001-04-29",
+  "estaCasado": false
+}
+
+###
+DELETE http://localhost:8080/persona/2
+
+###
+PUT http://localhost:8080/persona/1
+Content-Type: application/json
+
+{
+  "nombre": "Juan",
+  "fechaNacimiento": "2001-04-29",
+  "estaCasado": true
+}
+
+###
+GET http://localhost:8080/persona/1
+
+###
+POST http://localhost:8080/persona/17/mascotas/crear
+Content-Type: application/json
+
+{
+  "nombre": "Lester",
+  "fechaNacimiento": "2019-06-10",
+  "estaVacunado": true
+}
+
+###
+DELETE http://localhost:8080/persona/1/mascotas/1
+
+###
+PUT http://localhost:8080/persona/1/mascotas/2
+Content-Type: application/json
+
+{
+  "nombre": "Firulais",
+  "fechaNacimiento": "2019-06-10",
+  "estaVacunado": false
+}
